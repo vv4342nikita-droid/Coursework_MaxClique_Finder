@@ -10,7 +10,7 @@ namespace CliqueCoursework
 {
     public partial class Form1 : Form
     {
-        // ── Кольорова палітра ────────────────────────────────────────────────
+    
         private static readonly Color C_BG        = Color.FromArgb(240, 243, 249);
         private static readonly Color C_PANEL     = Color.FromArgb(255, 255, 255);
         private static readonly Color C_ACCENT    = Color.FromArgb(37,  99,  235);
@@ -21,7 +21,7 @@ namespace CliqueCoursework
         private static readonly Color C_SUBTEXT   = Color.FromArgb(100, 116, 139);
         private static readonly Color C_HEADER_BG = Color.FromArgb(15,  23,  42);
 
-        // ── Шрифти ──────────────────────────────────────────────────────────
+        
         private static readonly Font F_TITLE = new Font("Segoe UI", 12f, FontStyle.Bold);
         private static readonly Font F_GROUP = new Font("Segoe UI", 9f,  FontStyle.Bold);
         private static readonly Font F_BODY  = new Font("Segoe UI", 9f);
@@ -29,7 +29,7 @@ namespace CliqueCoursework
         private static readonly Font F_BTN   = new Font("Segoe UI Semibold", 9f);
         private static readonly Font F_MONO  = new Font("Consolas", 8.5f);
 
-        // ── Логіка ──────────────────────────────────────────────────────────
+        
         private Graph             _graph;
         private PerformanceTester _tester         = new PerformanceTester();
         private List<Point>       _vertexPos      = new List<Point>();
@@ -38,7 +38,7 @@ namespace CliqueCoursework
         private bool              _hasResult      = false;
         private bool              _updatingMatrix = false;
 
-        // ── UI-елементи ─────────────────────────────────────────────────────
+        
         private PictureBox    _canvas;
         private NumericUpDown _nudVertices;
         private DataGridView  _dgvMatrix;
@@ -61,7 +61,7 @@ namespace CliqueCoursework
 
         private void SetupUI()
         {
-            // ── Форма ──────────────────────────────────────────────────────
+            
             this.Text            = "Пошук кліки у графі (Курсова робота)";
             this.ClientSize      = new Size(1180, 720);
             this.MinimumSize     = new Size(1196, 759);
@@ -71,7 +71,7 @@ namespace CliqueCoursework
             this.BackColor       = C_BG;
             this.Font            = F_BODY;
 
-            // ── Основний контейнер ─────────────────────────────────────────
+            
             var main = new Panel
             {
                 Dock      = DockStyle.Fill,
@@ -79,11 +79,9 @@ namespace CliqueCoursework
             };
             this.Controls.Add(main);
 
-            // ════════════════════════════════════════════════════════
-            // ЛІВА КОЛОНКА  x=10..430
-            // ════════════════════════════════════════════════════════
+            
 
-            // GroupBox: Налаштування графа
+            
             var gbSettings = MakeGroupBox("Налаштування графа", new Rectangle(10, 10, 420, 60));
             gbSettings.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             main.Controls.Add(gbSettings);
@@ -121,7 +119,7 @@ namespace CliqueCoursework
 
             gbSettings.Controls.AddRange(new Control[] { lblVert, _nudVertices, _btnGenerate, _btnHelp });
 
-            // GroupBox: Матриця суміжності
+            
             var gbMatrix = MakeGroupBox("Матриця суміжності", new Rectangle(10, 78, 420, 368));
             gbMatrix.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom;
             main.Controls.Add(gbMatrix);
@@ -191,7 +189,7 @@ namespace CliqueCoursework
 
             SyncMatrixSize();
 
-            // GroupBox: Легенда
+            
             var gbLegend = MakeGroupBox("Легенда", new Rectangle(10, 454, 420, 78));
             gbLegend.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             main.Controls.Add(gbLegend);
@@ -201,9 +199,7 @@ namespace CliqueCoursework
             AddLegendItem(gbLegend, Color.FromArgb(200, 200, 210), "Звичайне ребро",           new Rectangle(210, 22, 14, 14));
             AddLegendItem(gbLegend, Color.FromArgb(239,  68,  68), "Ребро кліки (виділено)",  new Rectangle(210, 44, 14, 14));
 
-            // ════════════════════════════════════════════════════════
-            // ЦЕНТРАЛЬНА КОЛОНКА  x=440..960
-            // ════════════════════════════════════════════════════════
+           
 
             var gbGraph = MakeGroupBox("Візуалізація графа", new Rectangle(440, 8, 520, 550));
             gbGraph.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
@@ -220,7 +216,7 @@ namespace CliqueCoursework
             _canvas.SizeChanged += Canvas_SizeChanged; 
             gbGraph.Controls.Add(_canvas);
 
-            // Рядок стану
+            
             _lblStatus = new Label
             {
                 Bounds    = new Rectangle(440, 566, 520, 22),
@@ -232,11 +228,9 @@ namespace CliqueCoursework
             };
             main.Controls.Add(_lblStatus);
 
-            // ════════════════════════════════════════════════════════
-            // ПРАВА КОЛОНКА  x=970..1170
-            // ════════════════════════════════════════════════════════
+         
 
-            // GroupBox: Алгоритми
+            
             var gbAlgo = MakeGroupBox("Алгоритми", new Rectangle(970, 8, 200, 172));
             gbAlgo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             main.Controls.Add(gbAlgo);
@@ -272,7 +266,7 @@ namespace CliqueCoursework
             gbAlgo.Controls.AddRange(new Control[]
                 { lblGreedyInfo, _btnGreedy, lblBKInfo, _btnBronKerbosch });
 
-            // GroupBox: Результати
+            
             var gbResults = MakeGroupBox("Результати виконання", new Rectangle(970, 188, 200, 376));
             gbResults.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             main.Controls.Add(gbResults);
@@ -303,7 +297,7 @@ namespace CliqueCoursework
             };
             gbResults.Controls.Add(_btnClearLog);
 
-            // GroupBox: Збереження
+            
             var gbFile = MakeGroupBox("Збереження", new Rectangle(970, 572, 200, 62));
             gbFile.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             main.Controls.Add(gbFile);
@@ -318,9 +312,9 @@ namespace CliqueCoursework
 
         #endregion
 
-        // ════════════════════════════════════════════════════════════════════
+        
         #region Матриця суміжності та Валідація
-        // ════════════════════════════════════════════════════════════════════
+        
 
         private void NudVertices_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -467,9 +461,9 @@ namespace CliqueCoursework
 
         #endregion
 
-        // ════════════════════════════════════════════════════════════════════
+        
         #region Обробники кнопок
-        // ════════════════════════════════════════════════════════════════════
+        
 
         private void BtnBuild_Click(object sender, EventArgs e)
         {
@@ -584,9 +578,9 @@ namespace CliqueCoursework
 
         #endregion
 
-        // ════════════════════════════════════════════════════════════════════
+        
         #region Малювання графа
-        // ════════════════════════════════════════════════════════════════════
+        
 
         private void RecalculateVertexPositions()
         {
@@ -680,9 +674,9 @@ namespace CliqueCoursework
 
         #endregion
 
-        // ════════════════════════════════════════════════════════════════════
+        
         #region Допоміжні методи
-        // ════════════════════════════════════════════════════════════════════
+        
 
         private void RunAlgorithm(ICliqueFinder finder)
         {
@@ -756,7 +750,7 @@ namespace CliqueCoursework
             return count;
         }
 
-        // ── Фабрика: кнопка ────────────────────────────────────────
+        
         private static Button MakeButton(string text, Color back, Color fore)
         {
             var btn = new Button
@@ -774,7 +768,7 @@ namespace CliqueCoursework
             return btn;
         }
 
-        // ── Фабрика: GroupBox ───────────────────────────────────────
+        
         private static GroupBox MakeGroupBox(string title, Rectangle bounds)
         {
             return new GroupBox
@@ -788,7 +782,7 @@ namespace CliqueCoursework
             };
         }
 
-        // ── Фабрика: рядок легенди ──────────────────────────────────
+        
         private static void AddLegendItem(Control parent, Color color, string label, Rectangle iconBounds)
         {
             parent.Controls.Add(new Panel
